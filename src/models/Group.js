@@ -9,7 +9,7 @@ const GroupSchema = new mongoose.Schema({
   users: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // Reference to the User model,
+      ref: 'User',
       default: [],
     },
   ],

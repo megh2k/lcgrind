@@ -4,17 +4,17 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true, // Ensures no two users have the same username
+    unique: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true, // Ensures no two users have the same email
+    unique: true,
   },
   groups: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Group', // Reference to the Group model,
+      ref: 'Group',
       default: [],
     },
   ],
