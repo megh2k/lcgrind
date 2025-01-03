@@ -1,16 +1,21 @@
-// src/app/dashboard/page.tsx
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import { getUserByEmail } from "@/app/actions/db";
-import  Dashboard  from '@/components/dashboard';
+import { auth } from "@/auth"
+import { getUserByEmail } from "@/app/actions/db"
+import UsernamePrompt from "@/components/usernamePrompt";
+import UserDashboard from "@/components/userDashboard";
 
-export default async function DashboardPage() {
+export default async function Dashboard() {
   const session = await auth();
 
-  if (!session) {
-    redirect("/");
-  }
-
   const user = await getUserByEmail(session?.user?.email);
-  return <Dashboard userExists={user? true : false} email={ session?.user?.email} />;
+  const username = user?.username;
+
+  return (
+    <div>
+      {username ? 
+        <UserDashboard username={ username} /> :
+        <UsernamePrompt session={ session } />
+      }
+
+    </div>
+  )
 }
