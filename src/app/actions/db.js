@@ -20,7 +20,7 @@ export async function languageStats(username) {
           }`;
   const variables = { "username": username };
 
-  const response = await fetch(process.env.APP_URL + "/api/leetcode/", {
+  const response = await fetch(process.env.NEXT_PUBLIC_APP_URL + "/api/leetcode/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export async function languageStats(username) {
 
 // export async function createUser(username, email) {
 //     try {
-//       const response = await fetch(process.env.APP_URL + '/api/users/create', {
+//       const response = await fetch(process.env.NEXT_PUBLIC_APP_URL + '/api/users/create', {
 //         method: 'POST',
 //         headers: {
 //           'Content-Type': 'application/json',

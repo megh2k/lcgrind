@@ -1,9 +1,10 @@
 "use client";
-import React, {useState } from "react";
+
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link"; // Import Link from Next.js
 
 export default function AllGroups({ groups, user }) {
-
   const router = useRouter();
   const [allGroups, setAllGroups] = useState(groups);
 
@@ -19,7 +20,7 @@ export default function AllGroups({ groups, user }) {
       router.push("/signin");
     } else {
       const userId = user._id;
-      const response = await fetch(`http://localhost:3000/api/groups/join/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/groups/join/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,7 +33,7 @@ export default function AllGroups({ groups, user }) {
 
       if (response.ok) {
         const updatedGroup = await fetch(
-          `http://localhost:3000/api/groups/${groupId}`
+          `${process.env.NEXT_PUBLIC_APP_URL}/api/groups/${groupId}`
         );
         const groupData = await updatedGroup.json();
 
@@ -48,29 +49,43 @@ export default function AllGroups({ groups, user }) {
   };
 
   const handleCreateGroup = () => {
-    router.push("/create-group");
+    router.push("/groups/create");
   };
 
   return (
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">All Groups</h1>
-          <button
-            onClick={handleCreateGroup}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">All Groups</h1>
+        <button
+          onClick={handleCreateGroup}
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+        >
+          Create Group
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {allGroups.map((grp, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-md rounded-lg p-4 border border-gray-200 flex items-center"
           >
-            Create Group
-          </button>
-        </div>
-    
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {allGroups.map((grp, index) => (
-            <div
-              key={index}
-              className="bg-white shadow-md rounded-lg p-4 border border-gray-200"
-            >
-              <h2 className="text-lg font-semibold text-gray-800">{grp.name}</h2>
+            <img
+              src={grp.icon}
+              alt={grp.name}
+              className="w-16 h-16 rounded-full mr-4"
+            />
+            <div>
+              {/* Wrap group name in Link */}
+              <Link href={`/groups/${grp._id}`}>
+                <h2 className="text-lg font-semibold text-gray-800 hover:text-blue-500 cursor-pointer">
+                  {grp.name}
+                </h2>
+              </Link>
               <p className="text-gray-600">Total Members: {grp.users.length}</p>
+              <p className="text-sm text-gray-500 italic mt-2">
+                {grp.description.length > 100 ? `${grp.description.slice(0, 250)}...` : grp.description}
+              </p>
               {userJoined(grp) ? (
                 <p className="mt-2 text-green-600 font-medium">Already Joined</p>
               ) : (
@@ -82,9 +97,9 @@ export default function AllGroups({ groups, user }) {
                 </button>
               )}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-    );
-        
+    </div>
+  );
 }

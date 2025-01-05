@@ -1,7 +1,17 @@
 import React from 'react'
+import CreateGroup from '@/components/createGroup';
+import { getUserByEmail } from "@/app/actions/db"
+import { auth } from "@/auth";
 
-export default function page() {
+export default async function AddGroup() {
+  const session = await auth();
+
+  const user = await getUserByEmail(session?.user?.email);
+
   return (
-    <div>Create Group</div>
+    <div>
+      <CreateGroup user={JSON.parse(JSON.stringify(user))} />
+    </div>
+
   )
 }
