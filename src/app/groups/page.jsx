@@ -12,7 +12,6 @@ export default async function Groups() {
 
   return (
     <div>
-      <h1>Groups</h1>
       <AllGroups groups={JSON.parse(JSON.stringify(groups))} user={ JSON.parse(JSON.stringify(user)) } />
     </div>
   );

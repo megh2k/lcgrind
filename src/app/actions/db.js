@@ -1,5 +1,6 @@
 import { connectToDB } from "@/lib/mongodb";
 import User from "@/models/User";
+import Group from "@/models/Group";
 import { NextResponse } from 'next/server';
 
 
@@ -7,6 +8,18 @@ export async function getUserByEmail(email) {
   await connectToDB();
   const user = await User.findOne({ email });
   return user;
+}
+
+export async function getGroupInfo(groupId) {
+  await connectToDB();
+  const group = await Group.findById(groupId).populate('users', 'username').populate('creator', 'username');
+  return group;
+}
+
+export async function getAllGroupUsers(groupId) {
+  await connectToDB();
+  const group = await Group.findById(groupId).populate('users', 'username');
+
 }
 
 export async function languageStats(username) {

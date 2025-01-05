@@ -82,7 +82,7 @@ export default function AllGroups({ groups, user }) {
                   {grp.name}
                 </h2>
               </Link>
-              <p className="text-gray-600">Total Members: {grp.users.length}</p>
+              <p className="text-gray-600">Member Count: {grp.users.length}</p>
               <p className="text-sm text-gray-500 italic mt-2">
                 {grp.description.length > 100 ? `${grp.description.slice(0, 250)}...` : grp.description}
               </p>
