@@ -8,7 +8,7 @@ export default async function Home() {
     <div className="flex-1 flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
-          Welcome to LC Grind
+          Welcome to LCGrind
         </h1>
 
         <form
