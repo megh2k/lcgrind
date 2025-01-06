@@ -12,7 +12,7 @@ export default async function GroupDetails({ params }) {
   const group = await getGroupInfo(groupId);
 
   return (
-    <div className="flex mx-2 sm:mx-4 md:mx-6 lg:mx-8 mt-4 mb-4 sm:mt-6 sm:mb-6 lg:mt-8 lg:mb-8 h-screen">
+    <div className="flex h-screen">
       {/* Left Panel */}
       <div className="w-64 bg-gray-800 text-white p-4 flex flex-col justify-start items-center rounded-lg h-full">
         <h2 className="text-lg font-semibold mb-4">Users</h2>
@@ -29,7 +29,7 @@ export default async function GroupDetails({ params }) {
       </div>
 
       {/* Main Content */}
-      <div className="ml-64 p-6 flex-1">
+      <div className="p-6 flex-1">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">{group.name}</h1>
         <p className="text-gray-600 mb-6">{group.description}</p>
 

@@ -9,7 +9,7 @@ export default function AllGroups({ groups, user }) {
   const [allGroups, setAllGroups] = useState(groups);
 
   const userJoined = (group) => {
-    if (group?.users?.includes(user._id)) {
+    if (group?.users?.includes(user?._id)) {
       return true;
     }
     return false;
@@ -68,14 +68,14 @@ export default function AllGroups({ groups, user }) {
         {allGroups.map((grp, index) => (
           <div
             key={index}
-            className="bg-white shadow-md rounded-lg p-4 border border-gray-200 flex items-center"
+            className="bg-white shadow-md rounded-lg p-4 border border-gray-200 flex items-start"
           >
             <img
               src={grp.icon}
               alt={grp.name}
-              className="w-16 h-16 rounded-full mr-4"
+              className="w-16 h-16 rounded-full mr-4 flex-shrink-0"
             />
-            <div>
+            <div className="flex-grow">
               {/* Wrap group name in Link */}
               <Link href={`/groups/${grp._id}`}>
                 <h2 className="text-lg font-semibold text-gray-800 hover:text-blue-500 cursor-pointer">
