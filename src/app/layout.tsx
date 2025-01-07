@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 const raleway = Raleway({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
-  title: "Auth App",
+  title: "LCGrind",
   description: "Modern authentication app with Next.js",
 };
 
@@ -21,8 +21,8 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${raleway.className} bg-neutral-50 min-h-screen text-gray-800`}
+      <body style={{ backgroundColor: "#FFFDF0" }}
+        className={`${raleway.className} min-h-screen text-gray-800`}
       >
         <script
           type="module"

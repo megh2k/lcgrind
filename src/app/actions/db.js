@@ -2,7 +2,11 @@ import { connectToDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import Group from "@/models/Group";
 import { NextResponse } from "next/server";
-import { recentACSubmissions, startDate } from "@/constants/leetcode";
+import {
+  recentACSubmissions,
+  startDate,
+  userProfileCalendar,
+} from "@/constants/leetcode";
 
 export async function getUserByEmail(email) {
   await connectToDB();
@@ -73,26 +77,31 @@ export async function getGroupHeatMapValues(userNames) {
   const hashMap = {};
 
   for (let i = 0; i < userNames.length; i++) {
-
     const userName = userNames[i].username;
-    const query = recentACSubmissions;
-    const variables = { "username": userName, "limit": "10" };
+    const query = userProfileCalendar;
+    const variables = { username: userName };
     const result = await leetcodeStats(query, variables);
-    const userRecentACSubmissions = result.data.recentAcSubmissionList;
+    const calendar = result.data.matchedUser.userCalendar.submissionCalendar; //string
+    const parsedCalendar = JSON.parse(calendar);
+    const submissionCalendar = Object.entries(parsedCalendar);
 
-    for (let j = 0; j < userRecentACSubmissions.length; j++){
-      const timestamp = parseInt(userRecentACSubmissions[j].timestamp);
+    console.log(userName, submissionCalendar.length);
+
+    for (let j = 0; j < submissionCalendar.length; j++) {
+
+      const timestamp = parseInt(submissionCalendar[j][0]);
       const submitDate = new Date(timestamp * 1000);
-      const dateNoTime = (submitDate.toISOString()).split('T')[0];
+      const dateNoTime = submitDate.toISOString().split("T")[0];
 
       if (startDate > dateNoTime) {
-        hashMap[dateNoTime] = (hashMap[dateNoTime] || 0) + 1;
+        hashMap[dateNoTime] =
+          (hashMap[dateNoTime] || 0) + parseInt(submissionCalendar[j][1]);
       }
-
     }
-
   }
-  const resultArray = Object.entries(hashMap).map(([date, count]) => ({ date, count }));
+  const resultArray = Object.entries(hashMap).map(([date, count]) => ({
+    date,
+    count,
+  }));
   return resultArray;
-
 }

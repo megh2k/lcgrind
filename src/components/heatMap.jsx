@@ -7,17 +7,10 @@ export default function HeatMapComponent({ values }) {
   return (
     <HeatMap
       value={values}
-      width={600}
+      width={700}
       style={{ color: "#ad001d", "--rhm-rect-active": "red" }}
       startDate={new Date("2024/01/01")}
-      panelColors={[
-        "#f4decd",
-        "#e4b293",
-        "#d48462",
-        "#c2533a",
-        "#ad001d",
-        "#6c0012",
-      ]}
+      
       rectRender={(props, data) => {
         return (
           <Tooltip

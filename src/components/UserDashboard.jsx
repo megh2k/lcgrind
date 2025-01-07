@@ -11,7 +11,7 @@ export default async function UserDashboard({ username }) {
   const userLanguageStatsData = await languageStatsData.data.matchedUser.languageProblemCount;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-semibold text-gray-800 mb-6">Welcome to your dashboard, {username}!</h1>
       
       <h3 className="text-3xl font-semibold text-gray-800 mb-6">Problems Solved</h3>
