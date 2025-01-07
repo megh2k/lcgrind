@@ -3,7 +3,7 @@ import { Raleway } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 // import Loading from "./loading";
-import { Suspense } from "react";
+// import { Suspense } from "react";
 
 const raleway = Raleway({ subsets: ["latin"], weight: "400" });
 
