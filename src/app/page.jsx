@@ -1,6 +1,6 @@
 export default function HomePage() {
   return (
-    <div className="h-[calc(100vh-64px)] flex flex-col justify-center items-center bg-gray-50 px-4">
+    <div className="h-[calc(100vh-64px)] flex flex-col justify-center items-center">
       <div className="text-center max-w-3xl">
         <h1 className="text-5xl font-semibold text-gray-800 mb-6">
           Empowering Groups to Collaborate and Succeed

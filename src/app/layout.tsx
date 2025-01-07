@@ -22,7 +22,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${raleway.className} bg-white min-h-screen text-gray-800`}
+        className={`${raleway.className} bg-neutral-50 min-h-screen text-gray-800`}
       >
         <script
           type="module"
