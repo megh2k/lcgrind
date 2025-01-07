@@ -1,5 +1,5 @@
 import React from 'react'
-import CreateGroup from '@/components/createGroup';
+import CreateGroup from '@/components/CreateGroup';
 import { getUserByEmail } from "@/app/actions/db"
 import { auth } from "@/auth";
 
