@@ -7,7 +7,7 @@ export default function HeatMapComponent({ values }) {
   return (
     <HeatMap
       value={values}
-      width={800}
+      width={700}
       style={{ color: "#ad001d", "--rhm-rect-active": "red" }}
       startDate={new Date("2024/01/01")}
       
