@@ -1,13 +1,12 @@
-// src/app/page.tsx
 import { signIn, auth, signOut } from "@/auth";
 
 export default async function Home() {
   const session = await auth();
 
   return (
-    <div className="flex-1 flex items-center justify-center p-4">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
+    <div className="h-[calc(100vh-64px)] flex justify-center items-center overflow-hidden">
+      <div className="w-full max-w-md bg-white shadow-xl rounded-lg border border-gray-200 mx-4 px-6 py-5">
+        <h1 className="text-2xl font-semibold text-gray-800 text-center">
           Welcome to LCGrind
         </h1>
 
@@ -20,9 +19,9 @@ export default async function Home() {
         >
           <button
             type="submit"
-            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+            className="w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all hover:shadow-lg font-medium"
           >
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 justify-center">
               <svg
                 className="w-5 h-5"
                 viewBox="0 0 24 24"
@@ -46,7 +45,7 @@ export default async function Home() {
             >
               <button
                 type="submit"
-                className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
+                className="w-full py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all hover:shadow-lg font-medium"
               >
                 Sign Out
               </button>

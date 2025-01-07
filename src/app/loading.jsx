@@ -5,7 +5,7 @@ export default async function Loading() {
   helix.register();
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <l-helix color="black">
+      <l-helix color="coral">
       </l-helix>
     </div>
   );
