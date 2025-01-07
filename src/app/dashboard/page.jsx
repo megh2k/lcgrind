@@ -1,7 +1,7 @@
 import { auth } from "@/auth"
 import { getUserByEmail } from "@/app/actions/db"
-import UsernamePrompt from "@/components/usernamePrompt";
-import UserDashboard from "@/components/userDashboard";
+import UsernamePrompt from "@/components/UsernamePrompt";
+import UserDashboard from "@/components/UserDashboard";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {

@@ -6,8 +6,8 @@ import {
   getGroupRecentAcSubmissions,
 } from "@/app/actions/db";
 import { auth } from "@/auth";
-import HeatMapComponent from "@/components/heatMap";
-import GroupUserPanel from "@/components/groupUserPanel";
+import HeatMapComponent from "@/components/HeatMap";
+import GroupUserPanel from "@/components/GroupUserPanel";
 
 export default async function GroupDetails({ params }) {
   const groupId = (await params)?.id;
