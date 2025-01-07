@@ -3,7 +3,6 @@ import User from "@/models/User";
 import Group from "@/models/Group";
 import { NextResponse } from "next/server";
 import {
-  recentACSubmissions,
   startDate,
   userProfileCalendar,
 } from "@/constants/leetcode";
@@ -22,10 +21,11 @@ export async function getGroupInfo(groupId) {
   return group;
 }
 
-export async function getAllGroupUsers(groupId) {
-  await connectToDB();
-  const group = await Group.findById(groupId).populate("users", "username");
-}
+// export async function getAllGroupUsers(groupId) {
+//   await connectToDB();
+//   const group = await Group.findById(groupId).populate("users", "username");
+//   return group;
+// }
 
 export async function languageStats(username) {
   const query = `query languageStats($username: String!) {

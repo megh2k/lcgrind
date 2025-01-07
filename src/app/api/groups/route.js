@@ -6,7 +6,7 @@ export async function GET() {
         await connectToDB();
     }
     catch (error) {
-        return new Response(JSON.stringify({ error: 'Failed to connect' }), { status: 500 });
+        return new Response(JSON.stringify({ error: error.message || 'Failed to connect' }), { status: 500 });
     }
 
     try {
@@ -15,7 +15,7 @@ export async function GET() {
     }
 
     catch (error) {
-        return new Response(JSON.stringify({ error: 'Failed to fetch groups' }), { status: 500 });
+        return new Response(JSON.stringify({ error: error.message || 'Failed to fetch groups' }), { status: 500 });
     }
 
 }

@@ -40,7 +40,7 @@ export async function POST(request) {
 
     return new Response(JSON.stringify({ user, group }), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Failed to join group" }), {
+    return new Response(JSON.stringify({ error: error.message || "Failed to join group" }), {
       status: 500,
     });
   }

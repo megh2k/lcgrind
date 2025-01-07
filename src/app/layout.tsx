@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { Raleway } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Loading from "./loading";
 import { Suspense } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
 const raleway = Raleway({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {

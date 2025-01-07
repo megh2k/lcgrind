@@ -15,7 +15,7 @@ export async function GET(_request, { params }) {
         return new Response(JSON.stringify(group), { status: 200 });
     }
     catch (error) {
-        return new Response(JSON.stringify({ error: 'Failed to fetch group data' }), { status: 500 });
+        return new Response(JSON.stringify({ error: error.message || 'Failed to fetch group data' }), { status: 500 });
     }
 
 }
