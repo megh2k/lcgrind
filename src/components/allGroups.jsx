@@ -1,8 +1,6 @@
 "use client";
-
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link"; // Import Link from Next.js
 
 export default function AllGroups({ groups, user }) {
   const router = useRouter();
@@ -20,16 +18,19 @@ export default function AllGroups({ groups, user }) {
       router.push("/signin");
     } else {
       const userId = user._id;
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/groups/join/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-          groupId,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/groups/join/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            groupId,
+          }),
+        }
+      );
 
       if (response.ok) {
         const updatedGroup = await fetch(
@@ -45,6 +46,38 @@ export default function AllGroups({ groups, user }) {
       } else {
         console.log("response not ok");
       }
+    }
+  };
+
+  const handleLeave = async (userId, groupId) => {
+    // to be implemented
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/groups/leave/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          groupId,
+        }),
+      }
+    );
+    if (response.ok) {
+      console.log("ok");
+      const updatedGroup = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/groups/${groupId}`
+      );
+      const groupData = await updatedGroup.json();
+
+      setAllGroups((prevGroups) =>
+        prevGroups.map((group) =>
+          group._id === groupId ? { ...group, users: groupData.users } : group
+        )
+      );
+    } else {
+      console.log("response not ok");
     }
   };
 
@@ -76,18 +109,25 @@ export default function AllGroups({ groups, user }) {
               className="w-16 h-16 rounded-full mr-4 flex-shrink-0"
             />
             <div className="flex-grow">
-              {/* Wrap group name in Link */}
-              <Link href={`/groups/${grp._id}`}>
-                <h2 className="text-lg font-semibold text-gray-800 hover:text-blue-500 cursor-pointer">
-                  {grp.name}
-                </h2>
-              </Link>
+              <a
+                href={`/groups/${grp._id}`}
+                className="text-lg font-semibold text-gray-800 hover:text-blue-500 cursor-pointer"
+              >
+                {grp.name}
+              </a>
               <p className="text-gray-600">Member Count: {grp.users.length}</p>
               <p className="text-sm text-gray-500 italic mt-2">
-                {grp.description.length > 100 ? `${grp.description.slice(0, 250)}...` : grp.description}
+                {grp.description.length > 100
+                  ? `${grp.description.slice(0, 250)}...`
+                  : grp.description}
               </p>
               {userJoined(grp) ? (
-                <p className="mt-2 text-green-600 font-medium">Already Joined</p>
+                <button
+                  onClick={() => handleLeave(user._id, grp._id)}
+                  className="mt-2 bg-red-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
+                >
+                  Leave
+                </button>
               ) : (
                 <button
                   onClick={() => handleJoin(grp._id)}
