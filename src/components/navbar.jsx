@@ -1,6 +1,5 @@
 import React from "react";
 import { Special_Elite } from "next/font/google";
-import { redirect } from "next/navigation";
 import { auth, signOut } from "@/auth";
 import { getUserByEmail } from "@/app/actions/db";
 

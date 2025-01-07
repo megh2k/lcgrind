@@ -1,22 +1,13 @@
 import React from "react";
 import { languageStats } from "@/constants/leetcode";
+import { leetcodeStats } from "@/app/actions/db";
 
 export default async function UserDashboard({ username }) {
 
   const query = languageStats;
   const variables = { "username": username };
-  const response = await fetch(process.env.NEXT_PUBLIC_APP_URL + "/api/leetcode/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-  });
   
-  const languageStatsData = await response.json();
+  const languageStatsData = await leetcodeStats(query, variables);
   const userLanguageStatsData = await languageStatsData.data.matchedUser.languageProblemCount;
 
   return (

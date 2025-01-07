@@ -3,7 +3,6 @@ import Group from '@/models/Group';
 
 export async function GET(_request, { params }) {
     const { id } = await params;
-    console.log(id);
     try {
         await connectToDB();
 
