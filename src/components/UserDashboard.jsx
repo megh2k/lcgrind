@@ -1,4 +1,3 @@
-import React from "react";
 import { languageStats } from "@/constants/leetcode";
 import { leetcodeStats } from "@/app/actions/db";
 
