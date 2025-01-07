@@ -3,8 +3,9 @@ import User from "@/models/User";
 import Group from "@/models/Group";
 import { NextResponse } from "next/server";
 import {
-  recentACSubmissions,
+  recentAcSubmissions,
   startDate,
+  todayDate,
   userProfileCalendar,
 } from "@/constants/leetcode";
 
@@ -85,18 +86,13 @@ export async function getGroupHeatMapValues(userNames) {
     const parsedCalendar = JSON.parse(calendar);
     const submissionCalendar = Object.entries(parsedCalendar);
 
-    console.log(userName, submissionCalendar.length);
-
     for (let j = 0; j < submissionCalendar.length; j++) {
-
       const timestamp = parseInt(submissionCalendar[j][0]);
       const submitDate = new Date(timestamp * 1000);
       const dateNoTime = submitDate.toISOString().split("T")[0];
 
-      if (startDate > dateNoTime) {
-        hashMap[dateNoTime] =
-          (hashMap[dateNoTime] || 0) + parseInt(submissionCalendar[j][1]);
-      }
+      hashMap[dateNoTime] =
+        (hashMap[dateNoTime] || 0) + parseInt(submissionCalendar[j][1]);
     }
   }
   const resultArray = Object.entries(hashMap).map(([date, count]) => ({
@@ -104,4 +100,29 @@ export async function getGroupHeatMapValues(userNames) {
     count,
   }));
   return resultArray;
+}
+
+export async function getGroupRecentAcSubmissions(userNames) {
+  const hashMap = {};
+
+  for (let i = 0; i < userNames.length; i++) {
+    const userName = userNames[i].username;
+    const query = recentAcSubmissions;
+    const variables = { username: userName, limit: 5 };
+
+    const result = await leetcodeStats(query, variables);
+    const acSubmissions = result.data.recentAcSubmissionList;
+
+    for (let j = 0; j < acSubmissions.length; j++) {
+      const timestamp = parseInt(acSubmissions[j].timestamp);
+      const submitDate = new Date(timestamp * 1000);
+      const dateNoTime = submitDate.toISOString().split("T")[0];
+      const title = acSubmissions[j].title;
+      if (todayDate === dateNoTime) {
+        hashMap[userName] = hashMap[userName] || [];
+        hashMap[userName].push(title);
+      }
+    }
+  }
+  return hashMap;
 }
