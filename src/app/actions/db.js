@@ -85,7 +85,6 @@ export async function getGroupHeatMapValues(userNames) {
     const parsedCalendar = JSON.parse(calendar);
     const submissionCalendar = Object.entries(parsedCalendar);
 
-    console.log(userName, submissionCalendar.length);
 
     for (let j = 0; j < submissionCalendar.length; j++) {
 

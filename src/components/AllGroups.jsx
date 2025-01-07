@@ -65,7 +65,6 @@ export default function AllGroups({ groups, user }) {
       }
     );
     if (response.ok) {
-      console.log("ok");
       const updatedGroup = await fetch(
         `${process.env.NEXT_PUBLIC_APP_URL}/api/groups/${groupId}`
       );
