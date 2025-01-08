@@ -59,6 +59,7 @@ export async function leetcodeStats(query, variables) {
       variables,
     }),
   });
+  console.log("leetcodeStats", response.json());
   return response.json();
 }
 
