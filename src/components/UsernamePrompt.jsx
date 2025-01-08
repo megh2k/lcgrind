@@ -10,7 +10,7 @@ export default function UsernamePrompt({ session }) {
   const createUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.NEXTAUTH_URL}/api/users/create`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
