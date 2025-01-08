@@ -38,7 +38,7 @@ export async function languageStats(username) {
           }`;
   const variables = { username: username };
 
-  const response = await fetch("/api/leetcode/",
+  const response = await fetch(`${NEXTAUTH_URL}/api/leetcode/`,
     {
       method: "POST",
       headers: {
@@ -56,7 +56,7 @@ export async function languageStats(username) {
 }
 
 export async function leetcodeStats(query, variables) {
-  const response = await fetch("/api/leetcode/",
+  const response = await fetch(`${NEXTAUTH_URL}/api/leetcode/`,
     {
       method: "POST",
       headers: {
