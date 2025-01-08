@@ -8,8 +8,8 @@ export const languageStats = `query languageStats($username: String!) {
   }`
 
 
-const date = new Date("2025/01/01");
-export const startDate = date.toISOString().split('T')[0];
+// const date = new Date("2025/01/01");
+// export const startDate = date.toISOString().split('T')[0];
 
 export const userProfileCalendar = `query userProfileCalendar($username: String!, $year: Int) {
   matchedUser(username: $username) {

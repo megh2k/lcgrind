@@ -3,7 +3,6 @@ import User from "@/models/User";
 import Group from "@/models/Group";
 import { NextResponse } from "next/server";
 import {
-  startDate,
   userProfileCalendar,
   recentAcSubmissions,
   todayDate,
