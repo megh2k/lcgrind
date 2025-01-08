@@ -1,10 +1,8 @@
 // GroupDetails.js
 import React from "react";
-import { auth } from "@/auth";
 import HeatMapComponent from "@/components/HeatMap";
 import GroupUserPanel from "@/components/GroupUserPanel";
 import {
-  getUserByEmail,
   getGroupInfo,
   getGroupHeatMapValues,
   getGroupRecentAcSubmissions,
@@ -15,6 +13,7 @@ export default async function GroupDetails({ params }) {
   const group = await getGroupInfo(groupId);
   const userNames = group?.users;
   const values = await getGroupHeatMapValues(userNames);
+  console.log("groups", group);
 
   const groupRecentAcSubmissions = await getGroupRecentAcSubmissions(userNames);
 
