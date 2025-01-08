@@ -49,6 +49,10 @@ export async function languageStats(username) {
 }
 
 export async function leetcodeStats(query, variables) {
+  console.log("inside leetcodestats");
+  console.log(process.env.NEXTAUTH_URL);
+  console.log(query);
+  console.log(variables);
   const response = await fetch(`${process.env.NEXTAUTH_URL}/api/leetcode/`, {
     method: "POST",
     headers: {

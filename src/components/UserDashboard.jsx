@@ -6,6 +6,8 @@ export default async function UserDashboard({ username }) {
   const query = languageStats;
   const variables = { "username": username };
   console.log("hi user dashboard");
+  console.log("query", query);
+  console.log("variables", variables);
   const languageStatsData = await leetcodeStats(query, variables);
   console.log("languagestats", languageStatsData);
   const userLanguageStatsData = await languageStatsData.data.matchedUser.languageProblemCount;
