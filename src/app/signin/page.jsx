@@ -36,7 +36,6 @@ export default async function Home() {
           <div className="mt-4 space-y-4">
             <p className="text-center text-sm text-gray-600">
               Signed in as {session.user?.email}
-              { console.log(session)}
             </p>
             <form
               action={async () => {

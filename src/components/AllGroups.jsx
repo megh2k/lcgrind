@@ -18,9 +18,8 @@ export default function AllGroups({ groups, user }) {
       router.push("/signin");
     } else {
       const userId = user._id;
-      console.log("handle Join", process.env.NEXTAUTH_URL);
       const response = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/groups/join/`,
+        `/api/groups/join/`,
         {
           method: "POST",
           headers: {
@@ -34,9 +33,8 @@ export default function AllGroups({ groups, user }) {
       );
 
       if (response.ok) {
-        console.log("group Id", process.env.NEXTAUTH_URL);
         const updatedGroup = await fetch(
-          `${process.env.NEXTAUTH_URL}/api/groups/${groupId}`
+          `/api/groups/${groupId}`
         );
         const groupData = await updatedGroup.json();
 
@@ -54,7 +52,7 @@ export default function AllGroups({ groups, user }) {
   const handleLeave = async (userId, groupId) => {
     // to be implemented
     const response = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/groups/leave/`,
+      `/api/groups/leave/`,
       {
         method: "POST",
         headers: {
@@ -68,7 +66,7 @@ export default function AllGroups({ groups, user }) {
     );
     if (response.ok) {
       const updatedGroup = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/groups/${groupId}`
+        `/api/groups/${groupId}`
       );
       const groupData = await updatedGroup.json();
 
