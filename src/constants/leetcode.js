@@ -28,3 +28,16 @@ export const userProfileCalendar = `query userProfileCalendar($username: String!
     }
   }
 }`
+
+const today = new Date();
+const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+export const todayDate = todayMidnight.toISOString().split('T')[0];
+
+export const recentAcSubmissions = `query recentAcSubmissions($username: String!, $limit: Int!) {
+  recentAcSubmissionList(username: $username, limit: $limit) {
+    id
+    title
+    titleSlug
+    timestamp
+  }
+}`
