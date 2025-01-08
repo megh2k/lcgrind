@@ -7,7 +7,7 @@ export default async function Groups() {
   const session = await auth();
 
   const user = await getUserByEmail(session?.user?.email);
-  const response = await fetch(process.env.NEXT_PUBLIC_APP_URL+ "/api/groups/")
+  const response = await fetch("/api/groups/")
   const groups = await response.json();
 
   return (
