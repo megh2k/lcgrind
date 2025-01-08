@@ -59,8 +59,10 @@ export async function leetcodeStats(query, variables) {
       variables,
     }),
   });
-  console.log("leetcodeStats", response.json());
-  return response.json();
+
+  const result = await response.json();
+  console.log("leetcodeStats", result);
+  return result;
 }
 
 export async function getGroupHeatMapValues(userNames) {

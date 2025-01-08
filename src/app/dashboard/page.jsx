@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
   const session = await auth();
-
+  console.log("hi dashboard");
   const user = await getUserByEmail(session?.user?.email);
 
   if (!user && !session) {
