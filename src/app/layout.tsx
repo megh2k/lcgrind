@@ -16,7 +16,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         style={{ backgroundColor: "#FFFDF0" }}
         className={`${raleway.className} min-h-screen text-gray-800`}
