@@ -16,7 +16,7 @@ export default function CreateGroup({ user }) {
     else {
       try {
         const response = await fetch(
-          `${process.env.APP_URL}/api/groups/create/`,
+          `${process.env.NEXTAUTH_URL}/api/groups/create/`,
           {
             method: "POST",
             headers: {
