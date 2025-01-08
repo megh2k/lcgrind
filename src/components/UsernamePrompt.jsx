@@ -8,11 +8,9 @@ export default function UsernamePrompt({ session }) {
   const [username, setusername] = useState("");
   
   const createUser = async (e) => {
-    console.log("before user prompt prevent default", process.env.NEXTAUTH_URL);
     e.preventDefault();
     try {
-      console.log("after user prompt prevent default", process.env.NEXTAUTH_URL);
-      const response = await fetch(`${process.env.NEXTAUTH_URL}/api/users/create`, {
+      const response = await fetch(`/api/users/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
