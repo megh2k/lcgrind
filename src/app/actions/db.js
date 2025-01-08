@@ -33,7 +33,7 @@ export async function languageStats(username) {
           }`;
   const variables = { username: username };
 
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/leetcode/`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/leetcode/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export async function languageStats(username) {
 }
 
 export async function leetcodeStats(query, variables) {
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/leetcode/`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/leetcode/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
