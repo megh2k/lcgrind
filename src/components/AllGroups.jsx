@@ -18,6 +18,7 @@ export default function AllGroups({ groups, user }) {
       router.push("/signin");
     } else {
       const userId = user._id;
+      console.log("handle Join", process.env.NEXTAUTH_URL);
       const response = await fetch(
         `${process.env.NEXTAUTH_URL}/api/groups/join/`,
         {
@@ -33,6 +34,7 @@ export default function AllGroups({ groups, user }) {
       );
 
       if (response.ok) {
+        console.log("group Id", process.env.NEXTAUTH_URL);
         const updatedGroup = await fetch(
           `${process.env.NEXTAUTH_URL}/api/groups/${groupId}`
         );

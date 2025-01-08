@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 export default function UsernamePrompt({ session }) {
   const router = useRouter();
   const [username, setusername] = useState("");
-  console.log(process.env.NEXTAUTH_URL);
+  
   const createUser = async (e) => {
+    console.log("before user prompt prevent default", process.env.NEXTAUTH_URL);
     e.preventDefault();
     try {
+      console.log("after user prompt prevent default", process.env.NEXTAUTH_URL);
       const response = await fetch(`${process.env.NEXTAUTH_URL}/api/users/create`, {
         method: "POST",
         headers: {
