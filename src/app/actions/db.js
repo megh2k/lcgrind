@@ -69,47 +69,50 @@ export async function languageStats(username) {
 //   return result;
 // }
 
-export async function leetcodeStats(query, variables) {
-  console.log("inside leetcodestats");
-  console.log("API URL:", process.env.NEXTAUTH_URL);
-  console.log("Query:", query);
-  console.log("Variables:", variables);
 
-  const body = JSON.stringify({
-    query,
-    variables,
-  });
+
+
+// export async function leetcodeStats(query, variables) {
+//   console.log("inside leetcodestats");
+//   console.log("API URL:", process.env.NEXTAUTH_URL);
+//   console.log("Query:", query);
+//   console.log("Variables:", variables);
+
+//   const body = JSON.stringify({
+//     query,
+//     variables,
+//   });
   
-  // Log the stringified body to check the exact payload
-  console.log("Request body:", body);
+//   // Log the stringified body to check the exact payload
+//   console.log("Request body:", body);
 
-  try {
-    const response = await fetch(`${process.env.NEXTAUTH_URL}/api/leetcode/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body,
-    });
+//   try {
+//     const response = await fetch(`${process.env.NEXTAUTH_URL}/api/leetcode/`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body,
+//     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Response error:", {
-        status: response.status,
-        statusText: response.statusText,
-        body: errorText
-      });
-      throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
-    }
+//     if (!response.ok) {
+//       const errorText = await response.text();
+//       console.error("Response error:", {
+//         status: response.status,
+//         statusText: response.statusText,
+//         body: errorText
+//       });
+//       throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
+//     }
 
-    const result = await response.json();
-    console.log("leetcodeStats response:", result);
-    return result;
-  } catch (error) {
-    console.error("Error in leetcodeStats:", error);
-    throw error;
-  }
-}
+//     const result = await response.json();
+//     console.log("leetcodeStats response:", result);
+//     return result;
+//   } catch (error) {
+//     console.error("Error in leetcodeStats:", error);
+//     throw error;
+//   }
+// }
 
 export async function getGroupHeatMapValues(userNames) {
   const hashMap = {};
