@@ -13,7 +13,6 @@ export default async function GroupDetails({ params }) {
   const group = await getGroupInfo(groupId);
   const userNames = group?.users;
   const values = await getGroupHeatMapValues(userNames);
-  console.log("groups", group);
 
   const groupRecentAcSubmissions = await getGroupRecentAcSubmissions(userNames);
 

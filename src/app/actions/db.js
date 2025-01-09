@@ -21,53 +21,6 @@ export async function getGroupInfo(groupId) {
   return group;
 }
 
-// export async function languageStats(username) {
-//   const query = `query languageStats($username: String!) {
-//             matchedUser(username: $username) {
-//               languageProblemCount {
-//                 languageName
-//                 problemsSolved
-//               }
-//             }
-//           }`;
-//   const variables = { username: username };
-
-//   const response = await fetch(`${process.env.NEXTAUTH_URL}/api/leetcode/`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       query,
-//       variables,
-//     }),
-//   });
-
-//   const result = await response.json();
-//   return NextResponse.json(result);
-// }
-
-// export async function leetcodeStats(query, variables) {
-//   console.log("inside leetcodestats");
-//   console.log(process.env.NEXTAUTH_URL);
-//   console.log(query);
-//   console.log(variables);
-//   const response = await fetch(`${process.env.NEXTAUTH_URL}/api/leetcode/`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       query,
-//       variables,
-//     }),
-//   });
-
-//   const result = await response.json();
-//   console.log("leetcodeStats", result);
-//   return result;
-// }
-
 export async function getGroupHeatMapValues(userNames) {
   const hashMap = {};
 
@@ -75,7 +28,7 @@ export async function getGroupHeatMapValues(userNames) {
     const userName = userNames[i].username;
     const query = userProfileCalendar;
     const variables = { username: userName };
-    // const result = await leetcodeStats(query, variables);
+
     const result = await fetch("https://leetcode.com/graphql", {
       method: "POST",
       headers: {
@@ -95,20 +48,36 @@ export async function getGroupHeatMapValues(userNames) {
     const calendar = result.data.matchedUser.userCalendar.submissionCalendar; //string
     const parsedCalendar = JSON.parse(calendar);
     const submissionCalendar = Object.entries(parsedCalendar);
-
+    
     for (let j = 0; j < submissionCalendar.length; j++) {
       const timestamp = parseInt(submissionCalendar[j][0]);
+      const count = submissionCalendar[j][1];
       const submitDate = new Date(timestamp * 1000);
       const dateNoTime = submitDate.toISOString().split("T")[0];
+      if (!hashMap[dateNoTime]) {
+        hashMap[dateNoTime] = {};
+      }
 
-      hashMap[dateNoTime] =
-        (hashMap[dateNoTime] || 0) + parseInt(submissionCalendar[j][1]);
+      if (!hashMap[dateNoTime][userName]) {
+        hashMap[dateNoTime][userName] = 0;
+      }
+
+      hashMap[dateNoTime][userName] += count;
     }
   }
-  const resultArray = Object.entries(hashMap).map(([date, count]) => ({
-    date,
-    count,
-  }));
+  const resultArray = Object.entries(hashMap).map(([date, userCountMap]) => {
+    const activeUsers = userCountMap;
+    const totalCount = Object.values(activeUsers).reduce(
+      (sum, count) => sum + count,
+      0
+    );
+    return {
+      date,
+      count: totalCount,
+      activeUsers,
+    };
+  });
+
   return resultArray;
 }
 
