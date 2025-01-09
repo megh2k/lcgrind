@@ -22,31 +22,31 @@ export async function getGroupInfo(groupId) {
   return group;
 }
 
-export async function languageStats(username) {
-  const query = `query languageStats($username: String!) {
-            matchedUser(username: $username) {
-              languageProblemCount {
-                languageName
-                problemsSolved
-              }
-            }
-          }`;
-  const variables = { username: username };
+// export async function languageStats(username) {
+//   const query = `query languageStats($username: String!) {
+//             matchedUser(username: $username) {
+//               languageProblemCount {
+//                 languageName
+//                 problemsSolved
+//               }
+//             }
+//           }`;
+//   const variables = { username: username };
 
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/leetcode/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-  });
+//   const response = await fetch(`${process.env.NEXTAUTH_URL}/api/leetcode/`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       query,
+//       variables,
+//     }),
+//   });
 
-  const result = await response.json();
-  return NextResponse.json(result);
-}
+//   const result = await response.json();
+//   return NextResponse.json(result);
+// }
 
 // export async function leetcodeStats(query, variables) {
 //   console.log("inside leetcodestats");
@@ -69,51 +69,6 @@ export async function languageStats(username) {
 //   return result;
 // }
 
-
-
-
-// export async function leetcodeStats(query, variables) {
-//   console.log("inside leetcodestats");
-//   console.log("API URL:", process.env.NEXTAUTH_URL);
-//   console.log("Query:", query);
-//   console.log("Variables:", variables);
-
-//   const body = JSON.stringify({
-//     query,
-//     variables,
-//   });
-  
-//   // Log the stringified body to check the exact payload
-//   console.log("Request body:", body);
-
-//   try {
-//     const response = await fetch(`${process.env.NEXTAUTH_URL}/api/leetcode/`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body,
-//     });
-
-//     if (!response.ok) {
-//       const errorText = await response.text();
-//       console.error("Response error:", {
-//         status: response.status,
-//         statusText: response.statusText,
-//         body: errorText
-//       });
-//       throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
-//     }
-
-//     const result = await response.json();
-//     console.log("leetcodeStats response:", result);
-//     return result;
-//   } catch (error) {
-//     console.error("Error in leetcodeStats:", error);
-//     throw error;
-//   }
-// }
-
 export async function getGroupHeatMapValues(userNames) {
   const hashMap = {};
 
@@ -121,7 +76,23 @@ export async function getGroupHeatMapValues(userNames) {
     const userName = userNames[i].username;
     const query = userProfileCalendar;
     const variables = { username: userName };
-    const result = await leetcodeStats(query, variables);
+    // const result = await leetcodeStats(query, variables);
+    const result = await fetch("https://leetcode.com/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: query,
+        variables: variables,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    });
+
     const calendar = result.data.matchedUser.userCalendar.submissionCalendar; //string
     const parsedCalendar = JSON.parse(calendar);
     const submissionCalendar = Object.entries(parsedCalendar);
@@ -150,7 +121,21 @@ export async function getGroupRecentAcSubmissions(userNames) {
     const query = recentAcSubmissions;
     const variables = { username: userName, limit: 5 };
 
-    const result = await leetcodeStats(query, variables);
+    const result = await fetch("https://leetcode.com/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: query,
+        variables: variables,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    });
     const acSubmissions = result.data.recentAcSubmissionList;
 
     for (let j = 0; j < acSubmissions.length; j++) {

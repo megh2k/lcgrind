@@ -1,5 +1,4 @@
 import { languageStats } from "@/constants/leetcode";
-import { leetcodeStats } from "@/app/actions/db";
 
 export default async function UserDashboard({ username }) {
   const query = languageStats;
@@ -24,7 +23,7 @@ export default async function UserDashboard({ username }) {
     return response.json();
   });
   console.log("languagestats", languageStatsData);
-  
+
   const userLanguageStatsData = await languageStatsData.data.matchedUser.languageProblemCount;
 
   return (
