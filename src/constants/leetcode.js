@@ -41,3 +41,10 @@ export const recentAcSubmissions = `query recentAcSubmissions($username: String!
     timestamp
   }
 }`
+
+
+export const checkUserNameLeetcodeExistsQuery = `query userPublicProfile($username: String!) {
+  matchedUser(username: $username) {
+    username
+  }
+}`

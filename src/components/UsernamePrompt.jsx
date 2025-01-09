@@ -1,14 +1,18 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function UsernamePrompt({ session }) {
   const router = useRouter();
-  const [username, setusername] = useState("");
-  
+  const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const createUser = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(""); // Clear any existing errors
+
     try {
       const response = await fetch(`/api/users/create`, {
         method: "POST",
@@ -21,11 +25,17 @@ export default function UsernamePrompt({ session }) {
         }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error);
+      } else {
         router.push("/dashboard");
       }
     } catch (error) {
-      console.log(error);
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -45,16 +55,25 @@ export default function UsernamePrompt({ session }) {
                 type="text"
                 placeholder="Username"
                 value={username}
-                onChange={(e) => setusername(e.target.value)}
-                className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all hover:shadow-md"
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={isLoading}
+                className={`w-full p-3 border ${
+                  error ? 'border-red-500' : 'border-gray-200'
+                } rounded-lg bg-gray-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all hover:shadow-md`}
               />
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-lg font-medium"
+              disabled={isLoading}
+              className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Register
+              {isLoading ? 'Checking...' : 'Register'}
             </button>
+            {error && (
+              <p className="text-red-500 text-sm mt-2 animate-fade-in">
+                {error}
+              </p>
+            )}
           </form>
         </div>
       </div>
