@@ -1,12 +1,9 @@
 import { languageStats } from "@/constants/leetcode";
+import User from "@/models/User";
 
 export default async function UserDashboard({ username }) {
-  const query = languageStats;
-  const variables = { username: username };
-  console.log("hi user dashboard");
-  console.log("query", query);
-  console.log("variables", variables);
-
+  const userObject = await User.findOne({"username": username});
+  console.log("userobject", userObject);
   const languageStatsData = await fetch("https://leetcode.com/graphql", {
     method: "POST",
     headers: {
@@ -22,7 +19,6 @@ export default async function UserDashboard({ username }) {
     }
     return response.json();
   });
-  console.log("languagestats", languageStatsData);
 
   const userLanguageStatsData = await languageStatsData.data.matchedUser.languageProblemCount;
 

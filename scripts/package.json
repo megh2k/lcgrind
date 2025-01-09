@@ -1,0 +1,7 @@
+{
+    "type": "module",
+    "scripts": {
+      "migrate:add-requests": "node updateSchema.js"
+    }
+  }
+  

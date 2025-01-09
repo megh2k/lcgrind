@@ -11,13 +11,24 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  groups: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Group',
-      default: [],
-    },
-  ],
+  groups: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Group',
+    default: [],
+  }],
+  requests: {
+    type: [[{
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+      groupId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Group',
+      }
+    }]],
+    default: [],
+  }
 });
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);
