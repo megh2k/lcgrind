@@ -3,7 +3,6 @@ import User from "@/models/User";
 
 export default async function UserDashboard({ username }) {
   const userObject = await User.findOne({"username": username});
-  console.log("userobject", userObject);
   const languageStatsData = await fetch("https://leetcode.com/graphql", {
     method: "POST",
     headers: {

@@ -18,24 +18,19 @@ export default function AllGroups({ groups, user }) {
       router.push("/signin");
     } else {
       const userId = user._id;
-      const response = await fetch(
-        `/api/groups/join/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId,
-            groupId,
-          }),
-        }
-      );
+      const response = await fetch(`/api/groups/join/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          groupId,
+        }),
+      });
 
       if (response.ok) {
-        const updatedGroup = await fetch(
-          `/api/groups/${groupId}`
-        );
+        const updatedGroup = await fetch(`/api/groups/${groupId}`);
         const groupData = await updatedGroup.json();
 
         setAllGroups((prevGroups) =>
@@ -50,24 +45,18 @@ export default function AllGroups({ groups, user }) {
   };
 
   const handleLeave = async (userId, groupId) => {
-    // to be implemented
-    const response = await fetch(
-      `/api/groups/leave/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-          groupId,
-        }),
-      }
-    );
+    const response = await fetch(`/api/groups/leave/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        groupId,
+      }),
+    });
     if (response.ok) {
-      const updatedGroup = await fetch(
-        `/api/groups/${groupId}`
-      );
+      const updatedGroup = await fetch(`/api/groups/${groupId}`);
       const groupData = await updatedGroup.json();
 
       setAllGroups((prevGroups) =>
@@ -78,6 +67,10 @@ export default function AllGroups({ groups, user }) {
     } else {
       console.log("response not ok");
     }
+  };
+
+  const handleDelete = async (groupId) => {
+    // to be implemented
   };
 
   const handleCreateGroup = () => {
@@ -121,16 +114,26 @@ export default function AllGroups({ groups, user }) {
                   : grp.description}
               </p>
               {userJoined(grp) ? (
-                <button
-                  onClick={() => handleLeave(user._id, grp._id)}
-                  className="mt-2 bg-red-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
-                >
-                  Leave
-                </button>
+                <div className="space-x-4">
+                  <button
+                    onClick={() => handleLeave(user._id, grp._id)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-5 my-4 rounded-full"
+                  >
+                    Leave
+                  </button>
+                  {grp.creator === user._id && (
+                    <button
+                      onClick={() => handleDelete(grp._id)}
+                      className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-5 my-4 rounded-full"
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
               ) : (
                 <button
                   onClick={() => handleJoin(grp._id)}
-                  className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 my-4 rounded-full"
                 >
                   Join
                 </button>
