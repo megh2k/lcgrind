@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import JoinGroupForm from "@/components/JoinGroupForm";
 
 export default function AllGroups({ groups, user }) {
   const router = useRouter();
   const [allGroups, setAllGroups] = useState(groups);
+  const [joinRequest, setjoinRequest] = useState(null);
 
   const userJoined = (group) => {
     if (group?.users?.includes(user?._id)) {
@@ -13,36 +15,36 @@ export default function AllGroups({ groups, user }) {
     return false;
   };
 
-  const handleJoin = async (groupId) => {
-    if (!user) {
-      router.push("/signin");
-    } else {
-      const userId = user._id;
-      const response = await fetch(`/api/groups/join/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-          groupId,
-        }),
-      });
+  // const handleJoin = async (groupId) => {
+  //   if (!user) {
+  //     router.push("/signin");
+  //   } else {
+  //     const userId = user._id;
+  //     const response = await fetch(`/api/groups/join/`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         userId,
+  //         groupId,
+  //       }),
+  //     });
 
-      if (response.ok) {
-        const updatedGroup = await fetch(`/api/groups/${groupId}`);
-        const groupData = await updatedGroup.json();
+  //     if (response.ok) {
+  //       const updatedGroup = await fetch(`/api/groups/${groupId}`);
+  //       const groupData = await updatedGroup.json();
 
-        setAllGroups((prevGroups) =>
-          prevGroups.map((group) =>
-            group._id === groupId ? { ...group, users: groupData.users } : group
-          )
-        );
-      } else {
-        console.log("response not ok");
-      }
-    }
-  };
+  //       setAllGroups((prevGroups) =>
+  //         prevGroups.map((group) =>
+  //           group._id === groupId ? { ...group, users: groupData.users } : group
+  //         )
+  //       );
+  //     } else {
+  //       console.log("response not ok");
+  //     }
+  //   }
+  // };
 
   const handleLeave = async (userId, groupId) => {
     const response = await fetch(`/api/groups/leave/`, {
@@ -132,7 +134,7 @@ export default function AllGroups({ groups, user }) {
                 </div>
               ) : (
                 <button
-                  onClick={() => handleJoin(grp._id)}
+                  onClick={() => setjoinRequest(grp)}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 my-4 rounded-full"
                 >
                   Join
@@ -142,6 +144,13 @@ export default function AllGroups({ groups, user }) {
           </div>
         ))}
       </div>
+      {joinRequest && (
+        <JoinGroupForm
+          group={joinRequest}
+          user={user}
+          onClose={setjoinRequest}
+        />
+      )}
     </div>
   );
 }

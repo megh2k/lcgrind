@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -13,22 +13,26 @@ const UserSchema = new mongoose.Schema({
   },
   groups: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Group',
+    ref: "Group",
     default: [],
   }],
   requests: {
-    type: [[{
+    type: [{
+      formData: {
+        reason: String,
+        experience: String,
+      },
       userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
       groupId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Group',
-      }
-    }]],
+        ref: "Group",
+      },
+    }],
     default: [],
-  }
+  },
 });
 
-export default mongoose.models.User || mongoose.model('User', UserSchema);
+export default mongoose.models.User || mongoose.model("User", UserSchema);
