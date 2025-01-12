@@ -1,11 +1,15 @@
 "use client";
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 export default function JoinGroupForm({ group, user, onClose }) {
+    const router = useRouter();
+    const [userRequests, setUserRequests] = useState(user?.requests);
+
   const [formData, setFormData] = useState({
     reason: "",
     experience: "",
   });
+  const [error, setError] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,12 +35,15 @@ export default function JoinGroupForm({ group, user, onClose }) {
           userId: user?._id,
         }),
       });
-
-      if (response.ok) {
-        alert("Request to join group submitted successfully!");
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.error);
+      } else {
+          onClose(false);
+          router.refresh()
       }
     } catch {
-        alert("An unexpected error occurred. Please try again.");
+      alert("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -93,8 +100,13 @@ export default function JoinGroupForm({ group, user, onClose }) {
               type="submit"
               className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all hover:shadow-lg font-medium"
             >
-              Join Group
+              Request Group
             </button>
+            {error && (
+              <p className="text-red-500 text-sm mt-2 animate-fade-in">
+                {error}
+              </p>
+            )}
           </form>
         </div>
       </div>

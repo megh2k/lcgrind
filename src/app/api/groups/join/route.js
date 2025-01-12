@@ -46,7 +46,19 @@ export async function POST(request) {
         status: 400,
       });
     } else {
+
+      // creatorId gets a request from userId
       await User.findByIdAndUpdate(creatorId, {
+        $push: {
+          requests: {
+            formData,
+            userId,
+            groupId,
+          },
+        },
+      });
+      // userId sends a request
+      await User.findByIdAndUpdate(userId, {
         $push: {
           requests: {
             formData,
