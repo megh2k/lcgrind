@@ -15,7 +15,9 @@ export default function AllGroups({ groups, user }) {
     return false;
   };
   const userRequested = (group) => {
-    const requested = user?.requests.some((item) => item.groupId._id === group._id)
+    const requested = user?.requests.some(
+      (item) => item.groupId._id === group._id
+    );
 
     if (requested) {
       return true;
@@ -66,12 +68,14 @@ export default function AllGroups({ groups, user }) {
       }),
     });
     if (response.ok) {
-      const updatedGroup = await fetch(`/api/groups/${groupId}`);
-      const groupData = await updatedGroup.json();
-
-      setAllGroups((prevGroups) =>
-        prevGroups.map((group) =>
-          group._id === groupId ? { ...group, users: groupData.users } : group
+      setAllGroups((prev) =>
+        prev.map((group) =>
+          group._id === groupId
+            ? {
+                ...group,
+                users: group.users.filter((user) => !(user === userId)),
+              }
+            : group
         )
       );
     } else {
@@ -143,14 +147,14 @@ export default function AllGroups({ groups, user }) {
               ) : (
                 <>
                   {userRequested(grp) ? (
-                    <button
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-5 my-4 rounded-full"
-                    >
+                    <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-5 my-4 rounded-full">
                       Requested
                     </button>
                   ) : (
                     <button
-                      onClick={() => router.push('/signin')}
+                      onClick={() =>
+                        user ? setjoinRequest(grp) : router.push("/signin")
+                      }
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 my-4 rounded-full"
                     >
                       Join
