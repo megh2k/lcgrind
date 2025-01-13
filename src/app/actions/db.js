@@ -9,7 +9,9 @@ import {
 
 export async function getUserByEmail(email) {
   await connectToDB();
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email })
+    .populate("requests.userId", "username")
+    .populate("requests.groupId", "name");
   return user;
 }
 
@@ -48,7 +50,7 @@ export async function getGroupHeatMapValues(userNames) {
     const calendar = result.data.matchedUser.userCalendar.submissionCalendar; //string
     const parsedCalendar = JSON.parse(calendar);
     const submissionCalendar = Object.entries(parsedCalendar);
-    
+
     for (let j = 0; j < submissionCalendar.length; j++) {
       const timestamp = parseInt(submissionCalendar[j][0]);
       const count = submissionCalendar[j][1];

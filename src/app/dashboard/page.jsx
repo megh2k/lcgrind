@@ -31,7 +31,7 @@ export default async function Dashboard() {
 
   const userLanguageStatsData = await languageStatsData?.data?.matchedUser
     ?.languageProblemCount;
-
+  
   return (
     <div>
       {session && user ? (

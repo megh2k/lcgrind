@@ -1,10 +1,10 @@
-"use client"
+"use client";
 export default function ShowRequests({ onClose, user }) {
-    const userRequests = user?.requests;
-  console.log("HI");
+  const userRequests = user?.requests;
   console.log(userRequests);
+
   return (
-    <div className="fixed top-0 right-0 mt-16 mr-4 z-50 w-80">
+    <div className="absolute top-0 right-0 mt-16 mr-4 z-50 w-80">
       <div className="bg-white shadow-lg rounded-lg border border-gray-200">
         <div className="p-4">
           <div className="flex justify-between items-center mb-4">
@@ -33,11 +33,7 @@ export default function ShowRequests({ onClose, user }) {
           </div>
 
           <div className="space-y-4">
-            {[
-              { time: "2 months ago" },
-              { time: "4 months ago" },
-              { time: "11 months ago" },
-            ].map((item, index) => (
+            {userRequests.map((item, index) => (
               <div
                 key={index}
                 className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md cursor-pointer"
@@ -45,8 +41,10 @@ export default function ShowRequests({ onClose, user }) {
                 <div className="flex-shrink-0"></div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900">
-                    Your resume review is ready!
+                    <strong>{item.userId.username}</strong> requested to join{" "}
+                    <strong>{item.groupId.name}</strong>
                   </p>
+
                   <p className="text-sm text-gray-500">{item.time}</p>
                 </div>
                 <div className="flex-shrink-0">
