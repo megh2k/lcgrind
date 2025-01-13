@@ -15,7 +15,7 @@ export default function AllGroups({ groups, user }) {
     return false;
   };
   const userRequested = (group) => {
-    const requested = user?.requests.some((item) => item.groupId === group._id)
+    const requested = user?.requests.some((item) => item.groupId._id === group._id)
 
     if (requested) {
       return true;
@@ -150,7 +150,7 @@ export default function AllGroups({ groups, user }) {
                     </button>
                   ) : (
                     <button
-                      onClick={() => setjoinRequest(grp)}
+                      onClick={() => router.push('/signin')}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 my-4 rounded-full"
                     >
                       Join

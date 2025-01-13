@@ -1,7 +1,35 @@
 "use client";
+import { useState } from "react";
+
 export default function ShowRequests({ onClose, user }) {
-  const userRequests = user?.requests;
-  console.log(userRequests);
+  const [userRequests, setuserRequests] = useState(user?.requests);
+
+  const handleJoinRequest = async (creatorId, userId, groupId, action) => {
+    try {
+      const response = await fetch(
+        `/api/groups/join/request/${creatorId}/${userId}/${groupId}/${action}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setuserRequests((prev) =>
+          prev.filter(
+            (item) =>
+              !(item.userId._id === userId && item.groupId._id === groupId)
+          )
+        );
+      } else {
+        console.log(data.error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="absolute top-0 right-0 mt-16 mr-4 z-50 w-80">
@@ -33,37 +61,78 @@ export default function ShowRequests({ onClose, user }) {
           </div>
 
           <div className="space-y-4">
-            {userRequests.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md cursor-pointer"
-              >
-                <div className="flex-shrink-0"></div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900">
-                    <strong>{item.userId.username}</strong> requested to join{" "}
-                    <strong>{item.groupId.name}</strong>
-                  </p>
-
-                  <p className="text-sm text-gray-500">{item.time}</p>
-                </div>
-                <div className="flex-shrink-0">
-                  <svg
-                    className="w-5 h-5 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+            {userRequests.map(
+              (item, index) =>
+                item.userId._id !== user?._id && (
+                  <div
+                    key={index}
+                    className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
-              </div>
-            ))}
+                    <button className="flex-shrink-0">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900">
+                          <strong>{item.userId.username}</strong> requested to
+                          join <strong>{item.groupId.name}</strong>
+                        </p>
+
+                        <p className="text-sm text-gray-500">{item.time}</p>
+                      </div>
+                    </button>
+                    <div className="flex-shrink-0 ml-auto">
+                      <button
+                        className="text-green-500 hover:text-green-600 mr-2"
+                        onClick={() =>
+                          handleJoinRequest(
+                            user?._id,
+                            item.userId._id,
+                            item.groupId._id,
+                            "accept"
+                          )
+                        }
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        className="text-red-500 hover:text-red-600"
+                        onClick={() =>
+                          handleJoinRequest(
+                            user?._id,
+                            item.userId._id,
+                            item.groupId._id,
+                            "reject"
+                          )
+                        }
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                )
+            )}
           </div>
         </div>
       </div>

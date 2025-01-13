@@ -23,7 +23,7 @@ export default function JoinGroupForm({ group, user, onClose }) {
     e.preventDefault();
 
     try {
-      const response = await fetch(`/api/groups/join`, {
+      const response = await fetch(`/api/groups/join/request`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
