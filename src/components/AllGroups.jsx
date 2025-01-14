@@ -93,76 +93,87 @@ export default function AllGroups({ groups, user }) {
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">All Groups</h1>
+      <div className="flex justify-end mb-6">
         <button
           onClick={handleCreateGroup}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+          className="
+            bg-teal-600
+            text-white font-semibold
+            py-3 px-6
+            custom-clip-path
+            hover:shadow-lg hover:scale-105
+            transition-all duration-300
+            rounded-lg
+            shadow-md
+            mr-4
+            "
         >
           Create Group
         </button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {allGroups.map((grp, index) => (
           <div
             key={index}
-            className="bg-white shadow-md rounded-lg p-4 border border-gray-200 flex items-start"
+            className="bg-gradient-to-br from-white to-gray-100 shadow-lg rounded-2xl p-6 border-2 border-gray-200 flex flex-col items-start transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
           >
-            <img
-              src={grp.icon}
-              alt={grp.name}
-              className="w-16 h-16 rounded-full mr-4 flex-shrink-0"
-            />
-            <div className="flex-grow">
-              <a
-                href={`/groups/${grp._id}`}
-                className="text-lg font-semibold text-gray-800 hover:text-blue-500 cursor-pointer"
-              >
-                {grp.name}
-              </a>
-              <p className="text-gray-600">Member Count: {grp.users.length}</p>
-              <p className="text-sm text-gray-500 italic mt-2">
-                {grp.description.length > 100
-                  ? `${grp.description.slice(0, 250)}...`
-                  : grp.description}
-              </p>
-              {userJoined(grp) ? (
-                <div className="space-x-4">
-                  <button
-                    onClick={() => handleLeave(user._id, grp._id)}
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-5 my-4 rounded-full"
-                  >
-                    Leave
-                  </button>
-                  {grp.creator === user._id && (
-                    <button
-                      onClick={() => handleDelete(grp._id)}
-                      className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-5 my-4 rounded-full"
-                    >
-                      Delete
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <>
-                  {userRequested(grp) ? (
-                    <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-5 my-4 rounded-full">
-                      Requested
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() =>
-                        user ? setjoinRequest(grp) : router.push("/signin")
-                      }
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 my-4 rounded-full"
-                    >
-                      Join
-                    </button>
-                  )}
-                </>
-              )}
+            <div className="flex items-center w-full mb-4">
+              <img
+                src={grp.icon || "/placeholder.svg"}
+                alt={grp.name}
+                className="w-20 h-20 rounded-full mr-4 border-4 border-blue-300 shadow-md"
+              />
+              <div className="flex-grow">
+                <a
+                  href={`/groups/${grp._id}`}
+                  className="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors duration-200"
+                >
+                  {grp.name}
+                </a>
+                <p className="text-gray-600 font-medium">
+                  Members: {grp.users.length}
+                </p>
+              </div>
             </div>
+            <p className="text-sm text-gray-700 italic mb-4 line-clamp-3">
+              {grp.description}
+            </p>
+            {userJoined(grp) ? (
+              <div className="space-x-4 w-full">
+                <button
+                  onClick={() => handleLeave(user._id, grp._id)}
+                  className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition-all duration-200 transform hover:-translate-y-1"
+                >
+                  Leave
+                </button>
+                {grp.creator === user._id && (
+                  <button
+                    onClick={() => handleDelete(grp._id)}
+                    className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition-all duration-200 transform hover:-translate-y-1"
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
+            ) : (
+              <>
+                {userRequested(grp) ? (
+                  <button className="w-full bg-gradient-to-r from-gray-400 to-gray-500 text-white font-bold py-2 px-6 rounded-full shadow-md">
+                    Requested
+                  </button>
+                ) : (
+                  <button
+                    onClick={() =>
+                      user ? setjoinRequest(grp) : router.push("/signin")
+                    }
+                    className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition-all duration-200 transform hover:-translate-y-1"
+                  >
+                    Join
+                  </button>
+                )}
+              </>
+            )}
           </div>
         ))}
       </div>

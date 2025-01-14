@@ -60,78 +60,84 @@ export default function ShowRequests({ onClose, user }) {
             </button>
           </div>
 
-          <div className="space-y-4">
-            {userRequests.map(
-              (item, index) =>
-                item.userId._id !== user?._id && (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md"
-                  >
-                    <button className="flex-shrink-0">
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900">
-                          <strong>{item.userId.username}</strong> requested to
-                          join <strong>{item.groupId.name}</strong>
-                        </p>
+          <div className="space-y-4 text-gray-900">
+            {userRequests.length === 0 ? (
+              <span>No requests to consider!</span>
+            ) : (
+              <>
+                {userRequests.map(
+                  (item, index) =>
+                    item.userId._id !== user?._id && (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md"
+                      >
+                        <button className="flex-shrink-0">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium">
+                              <strong>{item.userId.username}</strong> requested
+                              to join <strong>{item.groupId.name}</strong>
+                            </p>
 
-                        <p className="text-sm text-gray-500">{item.time}</p>
+                            <p className="text-sm text-gray-500">{item.time}</p>
+                          </div>
+                        </button>
+                        <div className="flex-shrink-0 ml-auto">
+                          <button
+                            className="text-green-500 hover:text-green-600 mr-2"
+                            onClick={() =>
+                              handleJoinRequest(
+                                user?._id,
+                                item.userId._id,
+                                item.groupId._id,
+                                "accept"
+                              )
+                            }
+                          >
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            className="text-red-500 hover:text-red-600"
+                            onClick={() =>
+                              handleJoinRequest(
+                                user?._id,
+                                item.userId._id,
+                                item.groupId._id,
+                                "reject"
+                              )
+                            }
+                          >
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
-                    </button>
-                    <div className="flex-shrink-0 ml-auto">
-                      <button
-                        className="text-green-500 hover:text-green-600 mr-2"
-                        onClick={() =>
-                          handleJoinRequest(
-                            user?._id,
-                            item.userId._id,
-                            item.groupId._id,
-                            "accept"
-                          )
-                        }
-                      >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </button>
-                      <button
-                        className="text-red-500 hover:text-red-600"
-                        onClick={() =>
-                          handleJoinRequest(
-                            user?._id,
-                            item.userId._id,
-                            item.groupId._id,
-                            "reject"
-                          )
-                        }
-                      >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                )
+                    )
+                )}
+              </>
             )}
           </div>
         </div>

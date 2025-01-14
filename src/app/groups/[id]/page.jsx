@@ -17,14 +17,11 @@ export default async function GroupDetails({ params }) {
   const groupRecentAcSubmissions = await getGroupRecentAcSubmissions(userNames);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-fit min-h-screen">
       {/* Left Panel */}
-      <div className="h-fit">
-        <GroupUserPanel group={JSON.parse(JSON.stringify(group))} />
-      </div>
+      <GroupUserPanel group={JSON.parse(JSON.stringify(group))} />
       {/* Main Content */}
-      <div className="p-6 flex-1 flex flex-col ml-6">
-        {/* Group name and description */}
+      <div className="p-6 flex-1 flex flex-col items-center ml-6 mt-5 mb-5 bg-[#f7f7f7] text-[#333333]">
         <div className="flex flex-col items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">
             {group.name}
