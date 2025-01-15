@@ -37,7 +37,7 @@ export default function UserDashboard({ userLanguageStatsData, user }) {
         Welcome to your dashboard, {user?.username}!
       </h1>
 
-      <div className="w-1/4 h-fit bg-[#f7f7f7] text-[#333333] p-5 rounded-lg mt-5 mb-5 shadow-md ml-6">
+      <div className="w-1/4 h-fit bg-white border border-[#333] text-[#333333] p-5 rounded-lg mt-5 mb-5 shadow-md ml-6">
         <h3 className="text-2xl font-semibold text-[#333333] mb-4">
           Problems Solved
         </h3>

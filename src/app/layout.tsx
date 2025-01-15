@@ -18,7 +18,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${raleway.className} min-h-screen text-gray-200 bg-sky-100`}
+        className={`${raleway.className} min-h-screen text-gray-200 bg-[#EEEFEF]`}
       >
         <script
           type="module"

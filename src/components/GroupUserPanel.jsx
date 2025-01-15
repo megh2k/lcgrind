@@ -2,7 +2,7 @@ import React from "react";
 
 export default function GroupUserPanel({ group }) {
   return (
-    <div className="w-fit h-fit bg-[#f7f7f7] text-[#333333] p-5 rounded-lg mt-5 shadow-md">
+    <div className="w-fit h-fit bg-white border border-[#333] text-[#333333] p-5 rounded-lg mt-5 shadow-md">
       <h2 className="text-lg font-semibold mb-4 text-center">Members</h2>
       <ul className="min-w-[200px]">
         {group.users.map((user) => (

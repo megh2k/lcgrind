@@ -21,7 +21,7 @@ export default async function GroupDetails({ params }) {
       {/* Left Panel */}
       <GroupUserPanel group={JSON.parse(JSON.stringify(group))} />
       {/* Main Content */}
-      <div className="p-6 flex-1 flex flex-col items-center ml-6 mt-5 mb-5 bg-[#f7f7f7] text-[#333333]">
+      <div className="p-6 flex-1 flex flex-col items-center ml-6 mt-5 mb-5 bg-white border border-[#333] text-[#333333]">
         <div className="flex flex-col items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">
             {group.name}

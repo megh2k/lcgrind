@@ -97,7 +97,7 @@ export default function AllGroups({ groups, user }) {
         <button
           onClick={handleCreateGroup}
           className="
-            bg-teal-600
+            bg-[#0E2C50]
             text-white font-semibold
             py-3 px-6
             custom-clip-path
@@ -116,7 +116,7 @@ export default function AllGroups({ groups, user }) {
         {allGroups.map((grp, index) => (
           <div
             key={index}
-            className="bg-gradient-to-br from-white to-gray-100 shadow-lg rounded-2xl p-6 border-2 border-gray-200 flex flex-col items-start transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            className="bg-white shadow-lg rounded-2xl p-6 border border-[#333] flex flex-col items-start transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
           >
             <div className="flex items-center w-full mb-4">
               <img
