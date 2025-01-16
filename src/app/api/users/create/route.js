@@ -7,12 +7,11 @@ export async function POST(request) {
     const { username, email } = await request.json();
 
     if (!username) {
-      return new Response(
-        JSON.stringify({ error: "Username is required" }),
-        { status: 400 }
-      );
+      return new Response(JSON.stringify({ error: "Username is required" }), {
+        status: 400,
+      });
     }
-
+    await connectToDB();
     const userNameDBExists = await User.exists({ username: username });
 
     // response.ok will always be true, that's how this graphql is setup
@@ -34,7 +33,7 @@ export async function POST(request) {
       );
     }
     const result = await response.json();
-    const userNameLeetcodeError = result?.errors;   // if errors exist => username not found
+    const userNameLeetcodeError = result?.errors; // if errors exist => username not found
 
     if (userNameLeetcodeError) {
       return new Response(
@@ -48,7 +47,6 @@ export async function POST(request) {
       email,
     });
 
-    await connectToDB();
     await newUser.save();
 
     return new Response(JSON.stringify({ success: true, user: newUser }), {
