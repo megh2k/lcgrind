@@ -136,7 +136,7 @@ export default function AllGroups({ groups, user }) {
                 </p>
               </div>
             </div>
-            <p className="text-sm text-gray-700 italic mb-4 line-clamp-3">
+            <p className="text-sm text-gray-700 italic mb-4">
               {grp.description}
             </p>
             {userJoined(grp) ? (
