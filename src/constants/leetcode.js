@@ -30,6 +30,7 @@ export const userProfileCalendar = `query userProfileCalendar($username: String!
 }`
 
 const today = new Date();
+export const starDateHeatMap = new Date(today.getFullYear(), today.getMonth() - 6, 1);
 const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 export const todayDate = todayMidnight.toISOString().split('T')[0];
 
