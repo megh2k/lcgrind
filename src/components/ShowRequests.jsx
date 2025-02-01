@@ -1,4 +1,4 @@
-"use client";
+// ShowRequests.js
 import { useState } from "react";
 
 export default function ShowRequests({ onClose, user }) {
@@ -65,6 +65,24 @@ export default function ShowRequests({ onClose, user }) {
               <span>No requests to consider!</span>
             ) : (
               <>
+                <>
+                  {userRequests.map(
+                    (item, index) =>
+                      item.userId._id === user?._id && (
+                        <div
+                          key={index}
+                          className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md"
+                        >
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium">
+                              You requested to join{" "}
+                              <strong>{item.groupId.name}</strong>
+                            </p>
+                          </div>
+                        </div>
+                      )
+                  )}
+                </>
                 {userRequests.map(
                   (item, index) =>
                     item.userId._id !== user?._id && (
@@ -72,16 +90,14 @@ export default function ShowRequests({ onClose, user }) {
                         key={index}
                         className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md"
                       >
-                        <button className="flex-shrink-0">
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium">
-                              <strong>{item.userId.username}</strong> requested
-                              to join <strong>{item.groupId.name}</strong>
-                            </p>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium">
+                            <strong>{item.userId.username}</strong> requested to
+                            join <strong>{item.groupId.name}</strong>
+                          </p>
 
-                            <p className="text-sm text-gray-500">{item.time}</p>
-                          </div>
-                        </button>
+                          {/* <p className="text-sm text-gray-500">{item.time}</p> */}
+                        </div>
                         <div className="flex-shrink-0 ml-auto">
                           <button
                             className="text-green-500 hover:text-green-600 mr-2"

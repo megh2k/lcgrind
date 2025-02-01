@@ -8,7 +8,7 @@ export default function UserDashboard({ userLanguageStatsData, user }) {
     <div className="p-6 relative">
       <button
         onClick={() => setShowRequest(true)}
-        className="absolute top-6 right-6 flex items-center gap-2 sm:px-4 sm:py-2 px-2 py-1 bg-red-600 text-white rounded-full shadow-md hover:bg-red-700"
+        className="absolute top-6 right-6 flex items-center gap-3 px-4 py-2 bg-black text-white rounded-full shadow-lg hover:bg-green-800 transition duration-200 group"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -21,10 +21,15 @@ export default function UserDashboard({ userLanguageStatsData, user }) {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M15 17h5l-1.405-1.405M19.5 16.5A2.121 2.121 0 0117 14.12M15 17a6 6 0 10-6-6M9 17a6 6 0 100 0"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
           />
         </svg>
-        <span className="text-sm font-bold">New Requests</span>
+        <span className="text-sm font-semibold">Requests</span>
+        {user?.requests?.length > 0 && (
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold transition-transform group-hover:scale-110">
+            {user?.requests?.length}
+          </span>
+        )}
       </button>
       {showRequest && (
         <ShowRequests
