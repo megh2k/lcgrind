@@ -55,7 +55,8 @@ export async function getGroupHeatMapValues(userNames) {
       const timestamp = parseInt(submissionCalendar[j][0]);
       const count = submissionCalendar[j][1];
       const submitDate = new Date(timestamp * 1000);
-      const dateNoTime = submitDate.toISOString().split("T")[0];
+      const dateNoTime = submitDate.toISOString().split("T")[0].replace(/-/g, '/');;
+      console.log(dateNoTime)
       if (!hashMap[dateNoTime]) {
         hashMap[dateNoTime] = {};
       }
@@ -79,7 +80,6 @@ export async function getGroupHeatMapValues(userNames) {
       activeUsers,
     };
   });
-
   return resultArray;
 }
 
@@ -89,7 +89,7 @@ export async function getGroupRecentAcSubmissions(userNames) {
   for (let i = 0; i < userNames.length; i++) {
     const userName = userNames[i].username;
     const query = recentAcSubmissions;
-    const variables = { username: userName, limit: 5 };
+    const variables = { username: userName, limit: 10 };
 
     const result = await fetch("https://leetcode.com/graphql", {
       method: "POST",
@@ -113,6 +113,7 @@ export async function getGroupRecentAcSubmissions(userNames) {
       const submitDate = new Date(timestamp * 1000);
       const dateNoTime = submitDate.toISOString().split("T")[0];
       const title = acSubmissions[j].title;
+      
       if (todayDate === dateNoTime) {
         hashMap[userName] = hashMap[userName] || [];
         hashMap[userName].push(title);
