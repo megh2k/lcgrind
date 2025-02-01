@@ -56,7 +56,6 @@ export async function getGroupHeatMapValues(userNames) {
       const count = submissionCalendar[j][1];
       const submitDate = new Date(timestamp * 1000);
       const dateNoTime = submitDate.toISOString().split("T")[0].replace(/-/g, '/');;
-      console.log(dateNoTime)
       if (!hashMap[dateNoTime]) {
         hashMap[dateNoTime] = {};
       }

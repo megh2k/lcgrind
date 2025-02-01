@@ -5,7 +5,6 @@ import HeatMap from "@uiw/react-heat-map";
 import { starDateHeatMap } from "@/constants/leetcode"
 
 export default function HeatMapComponent({ values }) {
-  console.log(starDateHeatMap);
   return (
     <div className="border border-[#333] flex justify-center my-8">
       <HeatMap
