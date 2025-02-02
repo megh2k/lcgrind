@@ -6,15 +6,18 @@ import {
   getGroupInfo,
   getGroupHeatMapValues,
   getGroupRecentAcSubmissions,
+  getGroupRecentAcSubmissionsParallel,
+  getGroupHeatMapValuesParallel,
 } from "@/app/actions/db";
+import RecentAcSubmissions from "@/components/RecentAcSubmissions";
 
 export default async function GroupDetails({ params }) {
   const groupId = (await params)?.id;
   const group = await getGroupInfo(groupId);
   const userNames = group?.users;
-  const values = await getGroupHeatMapValues(userNames);
+  const values = await getGroupHeatMapValuesParallel(userNames);
 
-  const groupRecentAcSubmissions = await getGroupRecentAcSubmissions(userNames);
+  const groupRecentAcSubmissions = await getGroupRecentAcSubmissionsParallel(userNames);
 
   return (
     <div className="flex h-fit min-h-screen">
@@ -36,29 +39,9 @@ export default async function GroupDetails({ params }) {
         <HeatMapComponent values={values} />
 
         {/* Today's Accepted Submissions */}
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-800 text-left">
-            Today's Accepted Submissions
-          </h2>
-          <div className="mt-6">
-            {Object.entries(groupRecentAcSubmissions).map(
-              ([userName, userValues]) => (
-                <div key={userName} className="mb-4">
-                  <h4 className="text-lg font-semibold text-gray-700">
-                    {userName}
-                  </h4>
-                  <ul>
-                    {userValues.map((value, index) => (
-                      <li key={index} className="text-gray-600">
-                        {value}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )
-            )}
-          </div>
-        </div>
+        <RecentAcSubmissions
+          groupRecentAcSubmissions={groupRecentAcSubmissions}
+        />
       </div>
     </div>
   );

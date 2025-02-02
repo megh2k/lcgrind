@@ -17,13 +17,6 @@ export const userProfileCalendar = `query userProfileCalendar($username: String!
       activeYears
       streak
       totalActiveDays
-      dccBadges {
-        timestamp
-        badge {
-          name
-          icon
-        }
-      }
       submissionCalendar
     }
   }
@@ -47,5 +40,11 @@ export const recentAcSubmissions = `query recentAcSubmissions($username: String!
 export const checkUserNameLeetcodeExistsQuery = `query userPublicProfile($username: String!) {
   matchedUser(username: $username) {
     username
+  }
+}`
+
+export const questionDifficulty = `query questionTitle($titleSlug: String!) {
+  question(titleSlug: $titleSlug) {
+    difficulty
   }
 }`
