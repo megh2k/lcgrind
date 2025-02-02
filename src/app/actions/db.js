@@ -85,58 +85,61 @@ export async function getGroupHeatMapValues(userNames) {
   });
   return resultArray;
 }
-
 export async function getGroupHeatMapValuesParallel(userNames) {
-  const promises = userNames.map(async (userName) => {
-    const query = userProfileCalendar;
-    const variables = { username: userName.username };
-
-    const result = await fetch("https://leetcode.com/graphql", {
+  // Create an array of promises for parallel execution
+  const fetchPromises = userNames.map(({ username }) => {
+    return fetch("https://leetcode.com/graphql", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: query,
-        variables: variables,
+        query: userProfileCalendar,
+        variables: { username },
       }),
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    });
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        // Return both username and calendar data for processing
+        return {
+          username,
+          calendar: JSON.parse(
+            result.data.matchedUser.userCalendar.submissionCalendar
+          ),
+        };
+      });
+  });
 
-    const calendar = result.data.matchedUser.userCalendar.submissionCalendar; //string
-    const parsedCalendar = JSON.parse(calendar);
-    const submissionCalendar = Object.entries(parsedCalendar);
+  // Execute all fetch requests in parallel
+  const usersData = await Promise.all(fetchPromises);
 
-    const hashMap = {};
-    for (const [timestamp, count] of submissionCalendar) {
-      const submitDate = new Date(parseInt(timestamp) * 1000);
-      const dateNoTime = submitDate
+  // Process the results
+  const hashMap = {};
+
+  usersData.forEach(({ username, calendar }) => {
+    Object.entries(calendar).forEach(([timestamp, count]) => {
+      const submitDate = new Date(parseInt(timestamp) * 1000)
         .toISOString()
         .split("T")[0]
         .replace(/-/g, "/");
 
-      if (!hashMap[dateNoTime]) {
-        hashMap[dateNoTime] = {};
+      if (!hashMap[submitDate]) {
+        hashMap[submitDate] = {};
       }
-
-      if (!hashMap[dateNoTime][userName.username]) {
-        hashMap[dateNoTime][userName.username] = 0;
+      if (!hashMap[submitDate][username]) {
+        hashMap[submitDate][username] = 0;
       }
-
-      hashMap[dateNoTime][userName.username] += count;
-    }
-
-    return hashMap;
+      hashMap[submitDate][username] += count;
+    });
   });
 
-  const results = await Promise.all(promises);
-  const mergedHashMap = results.reduce((acc, hashMap) => ({ ...acc, ...hashMap }), {});
-
-  const resultArray = Object.entries(mergedHashMap).map(([date, userCountMap]) => {
+  // Convert hashMap to resultArray (same format as original)
+  const resultArray = Object.entries(hashMap).map(([date, userCountMap]) => {
     const activeUsers = userCountMap;
     const totalCount = Object.values(activeUsers).reduce(
       (sum, count) => sum + count,
