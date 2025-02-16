@@ -25,37 +25,6 @@ export default function AllGroups({ groups, user }) {
     return false;
   };
 
-  // const handleJoin = async (groupId) => {
-  //   if (!user) {
-  //     router.push("/signin");
-  //   } else {
-  //     const userId = user._id;
-  //     const response = await fetch(`/api/groups/join/`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         userId,
-  //         groupId,
-  //       }),
-  //     });
-
-  //     if (response.ok) {
-  //       const updatedGroup = await fetch(`/api/groups/${groupId}`);
-  //       const groupData = await updatedGroup.json();
-
-  //       setAllGroups((prevGroups) =>
-  //         prevGroups.map((group) =>
-  //           group._id === groupId ? { ...group, users: groupData.users } : group
-  //         )
-  //       );
-  //     } else {
-  //       console.log("response not ok");
-  //     }
-  //   }
-  // };
-
   const handleLeave = async (userId, groupId) => {
     const response = await fetch(`/api/groups/leave/`, {
       method: "POST",
@@ -83,8 +52,23 @@ export default function AllGroups({ groups, user }) {
     }
   };
 
-  const handleDelete = async (groupId) => {
-    // to be implemented
+  const handleDelete = async (userId, groupId) => {
+    try {
+      const response = await fetch("/api/groups", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, groupId }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Group deleted:", data);
+      } else {
+        console.error("Error:", data.error);
+      }
+    } catch (error) {
+      console.error("Request failed:", error);
+    }
   };
 
   const handleCreateGroup = () => {
@@ -149,7 +133,7 @@ export default function AllGroups({ groups, user }) {
                 </button>
                 {grp.creator === user._id && (
                   <button
-                    onClick={() => handleDelete(grp._id)}
+                    onClick={() => handleDelete(user._id, grp._id)}
                     className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition-all duration-200 transform hover:-translate-y-1"
                   >
                     Delete
