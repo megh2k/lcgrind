@@ -5,8 +5,8 @@ import User from '@/models/User';
 export async function POST(request) {
     try {
         const requestBody = await request.json();
-        const { name, creatorId, description } = requestBody;
-
+        const { name, creatorId, description, iconURL } = requestBody;
+        
         if (!name) {
             return new Response(JSON.stringify({ error: 'Group name is required' }), { status: 400 });
         }
@@ -21,12 +21,13 @@ export async function POST(request) {
         }
 
         await connectToDB();
-
+        
         const newGroup = new Group({
             name,
             creator: creatorId,
             description: description || '',
             users: [creatorId],
+            icon: iconURL,
         });
 
         await newGroup.save();

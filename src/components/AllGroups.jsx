@@ -54,7 +54,7 @@ export default function AllGroups({ groups, user }) {
 
   const handleDelete = async (userId, groupId) => {
     try {
-      const response = await fetch("/api/groups", {
+      const response = await fetch("/api/groups/delete", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, groupId }),
@@ -62,7 +62,7 @@ export default function AllGroups({ groups, user }) {
 
       const data = await response.json();
       if (response.ok) {
-        console.log("Group deleted:", data);
+        window.location.reload();
       } else {
         console.error("Error:", data.error);
       }
@@ -104,7 +104,7 @@ export default function AllGroups({ groups, user }) {
           >
             <div className="flex items-center w-full mb-4">
               <img
-                src={grp.icon || "/placeholder.svg"}
+                src={grp.icon}
                 alt={grp.name}
                 className="w-20 h-20 rounded-full mr-4 border-4 border-blue-300 shadow-md"
               />

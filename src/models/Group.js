@@ -20,7 +20,6 @@ const GroupSchema = new mongoose.Schema({
   },
   icon: {
     type: String,
-    default: '/designer.jpeg',
   },
   description: {
     type: String,
