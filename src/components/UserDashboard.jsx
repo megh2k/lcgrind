@@ -1,14 +1,19 @@
 "use client";
 import { useState } from "react";
 import ShowRequests from "@/components/ShowRequests";
+import { LineChart } from "@mui/x-charts/LineChart";
 
-export default function UserDashboard({ userLanguageStatsData, user }) {
+export default function UserDashboard({
+  userLanguageStatsData,
+  userYearSubmissions,
+  user,
+}) {
   const [showRequest, setShowRequest] = useState(false);
   return (
     <div className="p-6 relative">
       <button
         onClick={() => setShowRequest(true)}
-        className="absolute top-6 right-6 flex items-center gap-3 px-4 py-2 bg-black text-white rounded-full shadow-lg hover:bg-green-800 transition duration-200 group"
+        className="absolute top-6 right-6 flex items-center gap-3 px-4 py-2 bg-green-800 text-white rounded-full shadow-lg hover:bg-green-900 transition duration-200 group"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -42,18 +47,49 @@ export default function UserDashboard({ userLanguageStatsData, user }) {
         Welcome to your dashboard, {user?.username}!
       </h1>
 
-      <div className="w-1/4 h-fit bg-white border border-[#333] text-[#333333] p-5 rounded-lg mt-5 mb-5 shadow-md ml-6">
-        <h3 className="text-2xl font-semibold text-[#333333] mb-4">
-          Problems Solved
-        </h3>
-        <ul className="space-y-2">
-          {userLanguageStatsData?.map((lang, index) => (
-            <li key={index} className="flex justify-between">
-              <span className="font-semibold">{lang.languageName}</span>
-              <span>{lang.problemsSolved}</span>
-            </li>
-          ))}
-        </ul>
+      <div className="flex justify-center items-start space-x-6">
+        {/* Problems Solved - Small Left Panel */}
+        <div className="w-1/5 bg-white border border-gray-300 text-gray-600 p-5 rounded-lg shadow-md">
+          <h6 className="text-2xl font-semibold text-gray-800 mb-4">
+            Problems Solved
+          </h6>
+          <ul className="space-y-2">
+            {userLanguageStatsData?.map((lang, index) => (
+              <li key={index} className="flex justify-between">
+                <span className="font-semibold">{lang.languageName}</span>
+                <span>{lang.problemsSolved}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Monthly Submissions - Centered Graph */}
+        <div className="w-3/4 bg-white border border-gray-300 p-5 rounded-lg shadow-md flex flex-col items-center">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+            2025 Monthly Submissions
+          </h3>
+          <LineChart
+            xAxis={[
+              {
+                scaleType: "point",
+                data: userYearSubmissions["months"],
+                tickLabelStyle: {
+                  angle: 45,
+                  textAnchor: "start",
+                  fontSize: 12,
+                },
+              },
+            ]}
+            series={[
+              {
+                data: userYearSubmissions["counts"],
+                area: true,
+              },
+            ]}
+            width={800}
+            height={350}
+          />
+        </div>
       </div>
     </div>
   );
